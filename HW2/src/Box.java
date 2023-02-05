@@ -1,11 +1,11 @@
 /*
-Задача 2:
-* Задача с классом Box(x,y,z)
-* Необходимо добавить в класс возможность определить какого типа коробка у нас создана.
-* 1) Куб (Все стороны равны).
-* 2) Обычная коробка.
-* 3) Конверт (Есть только длинна и ширина).
-*/
+ * Задача 2:
+ * Задача с классом Box(x,y,z)
+ * Необходимо добавить в класс возможность определить какого типа коробка у нас создана.
+ * 1) Куб (Все стороны равны).
+ * 2) Обычная коробка.
+ * 3) Конверт (Есть только длинна и ширина).
+ */
 public class Box {
     private int length;
     private int width;
@@ -27,10 +27,10 @@ public class Box {
         if (length <= 0 || width <= 0 || height < 0) {
             return "box with wrong size";
         }
-        if(length == width && length == height) {
+        if (length == width && length == height) {
             return "cube";
         }
-        if(height == 0) {
+        if (height == 0) {
             return "envelope";
         }
         return "ordinary box";
