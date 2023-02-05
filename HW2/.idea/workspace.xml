@@ -34,9 +34,16 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.Consumer">
+  <component name="RunManager" selected="Application.Car">
     <configuration name="Box" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Box" />
+      <module name="HW2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Car" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Car" />
       <module name="HW2" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -58,6 +65,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Car" />
         <item itemvalue="Application.Consumer" />
         <item itemvalue="Application.Box" />
         <item itemvalue="Application.Month" />
