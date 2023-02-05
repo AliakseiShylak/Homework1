@@ -4,90 +4,80 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5371a8f7-434c-41f2-b0e9-b76b2b77ef45" name="Changes" comment="" />
+    <list default="true" id="55c5ff98-eed2-4b15-82a8-e61679ce492f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProjectId" id="2KmjFDi9ySB2nHDGdwBw0y0cruX" />
+  <component name="ProjectId" id="2LFENScmy1AC4a336NGpt0dwirw" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true"
   }
-}</component>
-  <component name="RunManager" selected="Application.TaskSecondStar">
-    <configuration name="Task4" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Task4" />
-      <module name="HW1" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Task5" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Task5" />
-      <module name="HW1" />
+}]]></component>
+  <component name="RunManager" selected="Application.HW2Task1">
+    <configuration name="HW2Task1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="HW2Task1" />
+      <module name="HW" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="Task6" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Task6" />
-      <module name="HW1" />
+      <module name="HW" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="TaskFirstStar" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="TaskFirstStar" />
-      <module name="HW1" />
+      <module name="HW" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TaskFirstStarBest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="TaskFirstStarBest" />
+      <module name="HW" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="TaskSecondStar" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="TaskSecondStar" />
-      <module name="HW1" />
+      <module name="HW" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.HW2Task1" />
         <item itemvalue="Application.TaskSecondStar" />
+        <item itemvalue="Application.TaskFirstStarBest" />
         <item itemvalue="Application.TaskFirstStar" />
         <item itemvalue="Application.Task6" />
-        <item itemvalue="Application.Task5" />
-        <item itemvalue="Application.Task4" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="5371a8f7-434c-41f2-b0e9-b76b2b77ef45" name="Changes" comment="" />
-      <created>1674586547493</created>
+      <changelist id="55c5ff98-eed2-4b15-82a8-e61679ce492f" name="Changes" comment="" />
+      <created>1675458390627</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1674586547493</updated>
+      <updated>1675458390627</updated>
     </task>
     <servers />
   </component>
