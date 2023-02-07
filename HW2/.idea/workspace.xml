@@ -34,16 +34,9 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.HW2Task8">
+  <component name="RunManager" selected="Application.HW2Task9">
     <configuration name="Box" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Box" />
-      <module name="HW2" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Car" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Car" />
       <module name="HW2" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -70,13 +63,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="HW2Task9" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="HW2Task9" />
+      <module name="HW2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.HW2Task9" />
         <item itemvalue="Application.HW2Task8" />
         <item itemvalue="Application.HW2Task6and7" />
         <item itemvalue="Application.HW2Task5" />
         <item itemvalue="Application.Box" />
-        <item itemvalue="Application.Car" />
       </list>
     </recent_temporary>
   </component>
