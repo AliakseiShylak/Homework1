@@ -1,3 +1,5 @@
+package CarTask.Enums;
+
 public enum ColorsOfCar {
     BLUE,
     RED,
@@ -7,5 +9,6 @@ public enum ColorsOfCar {
     VIOLET,
     YELLOW,
     GRAY,
-    WHITE;
+    WHITE,
+    ;
 }

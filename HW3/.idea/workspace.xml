@@ -38,7 +38,7 @@
 }</component>
   <component name="RunManager">
     <configuration name="MainForCarTask" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="MainForCarTask" />
+      <option name="MAIN_CLASS_NAME" value="CarTask.MainForCarTask" />
       <module name="HW3" />
       <method v="2">
         <option name="Make" enabled="true" />
