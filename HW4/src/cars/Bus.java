@@ -30,7 +30,7 @@ public class Bus extends Car {
         this.passengerSeats = passengerSeats;
     }
 
-    public BusPassengerCapacity get() {
+    public BusPassengerCapacity getBusPassengerCapacity() {
         return passengerSeats;
     }
 

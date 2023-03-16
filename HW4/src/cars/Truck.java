@@ -30,7 +30,7 @@ public class Truck extends Car {
         this.loadCapacity = loadCapacity;
     }
 
-    public TruckLoadCapacity get() {
+    public TruckLoadCapacity getTruckLoadCapacity() {
         return loadCapacity;
     }
 

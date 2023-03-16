@@ -5,29 +5,34 @@ import cars.enums.*;
 import exceptions.NotValidArgumentException;
 import services.ChangeService;
 import services.OptionService;
+import showroom.Order;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.Set;
+import java.util.Random;
 
 public class Factory {
+    final static int CURRENT_YEAR = 2023;
     private final String nameOfFactory;
     private final TypeOfCar carTypeOfFactory;
     private final ArrayList<Model> modelsOfFactory;
     private final ArrayList<Engine> setOfEngines;
     private final ArrayList<Color> setOfColors;
     private final ArrayList<Wheel> setOfWheels;
-    private final Stock stockOfFactory;
+    protected final Stock stockOfFactory;
     private final ChangeService changeServiceOfFactory;
     private final OptionService optionServiceOfFactory;
+
+    public TypeOfCar getCarTypeOfFactory() {
+        return carTypeOfFactory;
+    }
 
     public Factory(String nameOfFactory,
                    TypeOfCar carTypeOfFactory,
                    ArrayList<Model> modelsOfFactory,
                    ArrayList<Engine> setOfEngines,
                    ArrayList<Color> setOfColors,
-                   ArrayList<Wheel> setOfWheels,
-                   Stock stockOfFactory
+                   ArrayList<Wheel> setOfWheels
     ) throws NotValidArgumentException {
         if (!CarUtils.isParameterForThisTypeOfCar(carTypeOfFactory, setOfColors.get(0), modelsOfFactory.get(0),
                 setOfWheels.get(0), setOfEngines.get(0))) {
@@ -39,7 +44,9 @@ public class Factory {
         this.setOfEngines = setOfEngines;
         this.setOfColors = setOfColors;
         this.setOfWheels = setOfWheels;
-        this.stockOfFactory = stockOfFactory;
+        this.stockOfFactory = new Stock(new ArrayList<>());
+        Random carQuantity = new Random();
+        CarUtils.generateRandomCars(carTypeOfFactory, this.stockOfFactory, carQuantity.nextInt(10));
         this.changeServiceOfFactory = new ChangeService();
         this.optionServiceOfFactory = new OptionService();
     }
@@ -53,94 +60,70 @@ public class Factory {
         return str;
     }
 
-    public String getStockOfFactory() {
+    public String printStockOfFactory() {
         return "\nStock of factory \"" + this.nameOfFactory + "\":\n" + this.stockOfFactory.printStock();
-    }
-
-    public Bus createCar(Color color, Model model, Wheel wheel, Engine engine,
-                         EnumSet<Option> options, BusPassengerCapacity busPassengerCapacity) {
-        try {
-            return new Bus(color, this.carTypeOfFactory, model, 2023, wheel, engine,
-                    options, busPassengerCapacity);
-        } catch (NotValidArgumentException e) {
-            System.out.println(e);
-        }
-        return null;
-    }
-
-    public Truck createCar(Color color, Model model, Wheel wheel, Engine engine,
-                           EnumSet<Option> options, TruckLoadCapacity truckLoadCapacity) {
-        try {
-            return new Truck(color, this.carTypeOfFactory, model, 2023, wheel, engine,
-                    options, truckLoadCapacity);
-        } catch (NotValidArgumentException e) {
-            System.out.println(e);
-        }
-        return null;
-    }
-
-    public PassengerCar createCar(Color color, Model model, Wheel wheel, Engine engine,
-                                  EnumSet<Option> options, PassengerCarBodyType passengerCarBodyType) {
-        try {
-            return new PassengerCar(color, this.carTypeOfFactory, model, 2023, wheel, engine,
-                    options, passengerCarBodyType);
-        } catch (NotValidArgumentException e) {
-            System.out.println(e);
-        }
-        return null;
     }
 
     public <T extends Car> boolean addCarToStock(T car) {
         return stockOfFactory.addCarToStock(car);
     }
-/*
-    private boolean canFactoryProduceSuchCar(Car car) {
-        if (!modelsOfFactory.contains(car.getMODEL()) ||
-                !setOfEngines.contains(car.getENGINE()) ||
-                !setOfColors.contains(car.getColor()) ||
-                !setOfWheels.contains(car.getWheel())) {
-            return false;
-        } else {
+
+    protected boolean checkOrder(Order order) {
+        if (order.getTypeOfOrderedCar().equals(this.carTypeOfFactory)
+                && order.getModelOfOrderedCar().isModelForThisCar(this.carTypeOfFactory)
+                && order.getEngineOfOrderedCar().isEngineForThisCar(this.carTypeOfFactory)
+                && order.getColorOfOrderedCar().isColorForThisCar(this.carTypeOfFactory)
+                && order.getWheelOfOrderedCar().isWheelForThisCar(this.carTypeOfFactory)
+        ) {
             return true;
         }
+        return false;
     }
 
-    private Car convertCar(Car oldCar, Car newCar) {
-        if (!oldCar.getColor().equals(newCar.getColor())) {
-            oldCar.changeColor(newCar.getColor());
+    public static <T extends Car, S> boolean isCarConvertible(T car,
+                                                              TypeOfCar typeOfOrderedCar,
+                                                              Model modelOfOrderedCar,
+                                                              Engine engineOfOrderedCar,
+                                                              S carParameter) {
+        if (car.getTypeOfCar().equals(typeOfOrderedCar)
+                && car.getModel().equals(modelOfOrderedCar)
+                && car.getEngine().equals(engineOfOrderedCar)
+        ) {
+            if (car instanceof Bus
+                    && typeOfOrderedCar.equals(TypeOfCar.BUS)
+                    && ((Bus) car).getBusPassengerCapacity().equals(carParameter)
+            ) {
+                return true;
+            }
+            if (car instanceof PassengerCar
+                    && typeOfOrderedCar.equals(TypeOfCar.PASSENGER_CAR)
+                    && ((PassengerCar) car).getPassengerCarBodyType().equals(carParameter)
+            ) {
+                return true;
+            }
+            if (car instanceof Truck
+                    && typeOfOrderedCar.equals(TypeOfCar.TRUCK)
+                    && ((Truck) car).getTruckLoadCapacity().equals(carParameter)
+            ) {
+                return true;
+            }
         }
-        if (!oldCar.getWheel().equals(newCar.getWheel())) {
-            oldCar.changeWheels(newCar.getWheel());
-        }
-        if (!oldCar.getOption().equals(newCar.getOption())) {
-            CarService.changeAllOptions(oldCar, newCar.getOption());
-        }
-        return oldCar;
+        return false;
     }
 
-    public boolean completeShopOrder(CarShop shop, Car car) {
-        Car currentCar = null;
-        if (!canFactoryProduceSuchCar(car)) {
-            return false;
+    protected <T extends Car> T convertCar(T carToChange, Order order) {
+        if (carToChange == null) {
+            return null;
         }
-        if (stockOfFactory.findCar(car)) {
-            return shop.addCarToStock(car) && stockOfFactory.deleteCar(car);
+        if (!carToChange.getColor().equals(order.getColorOfOrderedCar())) {
+            changeServiceOfFactory.change(carToChange, order.getColorOfOrderedCar());
         }
-        if (stockOfFactory.findConvertibleCar(car) != null) {
-            currentCar = stockOfFactory.findConvertibleCar(car);
-            convertCar(currentCar, car);
-            return shop.addCarToStock(currentCar) && stockOfFactory.deleteCar(currentCar);
-        } else {
-            return shop.addCarToStock(car);
+        if (!carToChange.getWheel().equals(order.getWheelOfOrderedCar())) {
+            changeServiceOfFactory.change(carToChange, order.getWheelOfOrderedCar());
         }
+        if (!carToChange.getOptions().equals(order.getOptionsOfOrderedCar())) {
+            optionServiceOfFactory.setOptions(carToChange, order.getOptionsOfOrderedCar());
+        }
+        return carToChange;
     }
-
-    public boolean addCarToStock(Car car) {
-        if (!canFactoryProduceSuchCar(car)) {
-            return false;
-        } else {
-            return this.stockOfFactory.addCarToStock(car);
-        }
-    }
-    */
 }

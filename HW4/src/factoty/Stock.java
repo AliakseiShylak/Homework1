@@ -1,10 +1,18 @@
 package factoty;
 
+import cars.Bus;
 import cars.Car;
+import cars.PassengerCar;
+import cars.Truck;
+import cars.enums.Engine;
+import cars.enums.Model;
+import cars.enums.PassengerCarBodyType;
+import cars.enums.TypeOfCar;
+import showroom.Order;
 
 import java.util.ArrayList;
 
-public class Stock<T extends Car> {
+public class Stock<T extends Car, S> {
     private final String ERROR_STOCK = "There are not cars in stock.";
     private ArrayList<T> stock;
 
@@ -27,21 +35,28 @@ public class Stock<T extends Car> {
         return stock.remove(car);
     }
 
-    public boolean findCar(T car) {
-        return stock.contains(car);
-    }
-/*
-    public T findConvertibleCar(T car) {
-        T suitableCar = null;
+    public T findCar(Order order) {
+        T convertibleCar = null;
         for (T currentCar : stock) {
-            if (currentCar.convertibleCar(car)) {
-                suitableCar = currentCar;
-                break;
+            if (Factory.isCarConvertible(currentCar,
+                    order.getTypeOfOrderedCar(),
+                    order.getModelOfOrderedCar(),
+                    order.getEngineOfOrderedCar(),
+                    order.getParameterOfOrderedCar())
+            ) {
+                convertibleCar = currentCar;
+                if (currentCar.getColor().equals(order.getColorOfOrderedCar())
+                        && currentCar.getWheel().equals(order.getWheelOfOrderedCar())
+                        && currentCar.getOptions().equals(order.getOptionsOfOrderedCar())
+                ) {
+                    deleteCar(currentCar);
+                    return currentCar;
+                }
             }
         }
-        return suitableCar;
+        deleteCar(convertibleCar);
+        return convertibleCar;
     }
-*/
 
     public String printStock() {
         String str = "";

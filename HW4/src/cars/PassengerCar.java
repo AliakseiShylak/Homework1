@@ -31,7 +31,7 @@ public class PassengerCar extends Car {
         this.carBodyType = carBodyType;
     }
 
-    public PassengerCarBodyType get() {
+    public PassengerCarBodyType getPassengerCarBodyType() {
         return carBodyType;
     }
 

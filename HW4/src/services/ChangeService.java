@@ -5,7 +5,7 @@ import cars.enums.Color;
 import cars.enums.Wheel;
 
 public class ChangeService {
-    public static <T extends Car, S> boolean change(T vehicle, S parameterForChanging) {
+    public <T extends Car, S> boolean change(T vehicle, S parameterForChanging) {
         if (vehicle == null || parameterForChanging == null) {
             return false;
         }
