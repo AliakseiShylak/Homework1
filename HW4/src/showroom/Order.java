@@ -7,8 +7,6 @@ import showroom.Showroom;
 import java.util.EnumSet;
 
 public class Order<S> {
-    private Showroom buyer;
-    private Factory producer;
     private TypeOfCar typeOfOrderedCar;
     private Model modelOfOrderedCar;
     private Color colorOfOrderedCar;
@@ -17,17 +15,14 @@ public class Order<S> {
     private EnumSet<Option> optionsOfOrderedCar;
     private S parameterOfOrderedCar;
 
-    public Order(Showroom buyer,
-                 Factory producer,
-                 TypeOfCar typeOfOrderedCar,
+    public Order(TypeOfCar typeOfOrderedCar,
                  Model modelOfOrderedCar,
                  Color colorOfOrderedCar,
                  Wheel wheelOfOrderedCar,
                  Engine engineOfOrderedCar,
                  EnumSet<Option> optionsOfOrderedCar,
-                 S parameterOfOrderedCar) {
-        this.buyer = buyer;
-        this.producer = producer;
+                 S parameterOfOrderedCar
+    ) {
         this.typeOfOrderedCar = typeOfOrderedCar;
         this.modelOfOrderedCar = modelOfOrderedCar;
         this.colorOfOrderedCar = colorOfOrderedCar;
@@ -39,14 +34,6 @@ public class Order<S> {
             this.optionsOfOrderedCar = optionsOfOrderedCar.clone();
         }
         this.parameterOfOrderedCar = parameterOfOrderedCar;
-    }
-
-    public Showroom getBuyer() {
-        return buyer;
-    }
-
-    public Factory getProducer() {
-        return producer;
     }
 
     public TypeOfCar getTypeOfOrderedCar() {

@@ -13,15 +13,11 @@ import showroom.Order;
 import java.util.ArrayList;
 
 public class Stock<T extends Car, S> {
-    private final String ERROR_STOCK = "There are not cars in stock.";
+    private final String ERROR_STOCK = "\n\tThere are not cars in stock.";
     private ArrayList<T> stock;
 
     public Stock(ArrayList<T> stock) {
         this.stock = stock;
-    }
-
-    public ArrayList<T> getStock() {
-        return stock;
     }
 
     public boolean addCarToStock(T car) {
@@ -64,7 +60,7 @@ public class Stock<T extends Car, S> {
             return ERROR_STOCK;
         }
         for (T car : stock) {
-            str = str.concat(car.toString() + "\n");
+            str = str.concat("\n\t" + car.toString());
         }
         return str;
     }

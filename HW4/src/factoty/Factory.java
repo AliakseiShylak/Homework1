@@ -52,7 +52,7 @@ public class Factory {
     }
 
     public String getDataAboutFactory() {
-        String str = "Factory: \"" + nameOfFactory +
+        String str = "\nFactory: \"" + nameOfFactory +
                 "\"\nSet of models: " + modelsOfFactory.toString() +
                 "\nSet of engines: " + setOfEngines.toString() +
                 "\nSet of colors: " + setOfColors.toString() +
@@ -61,7 +61,7 @@ public class Factory {
     }
 
     public String printStockOfFactory() {
-        return "\nStock of factory \"" + this.nameOfFactory + "\":\n" + this.stockOfFactory.printStock();
+        return "\nStock of factory \"" + this.nameOfFactory + "\":" + this.stockOfFactory.printStock();
     }
 
     public <T extends Car> boolean addCarToStock(T car) {
@@ -84,7 +84,8 @@ public class Factory {
                                                               TypeOfCar typeOfOrderedCar,
                                                               Model modelOfOrderedCar,
                                                               Engine engineOfOrderedCar,
-                                                              S carParameter) {
+                                                              S carParameter
+    ) {
         if (car.getTypeOfCar().equals(typeOfOrderedCar)
                 && car.getModel().equals(modelOfOrderedCar)
                 && car.getEngine().equals(engineOfOrderedCar)

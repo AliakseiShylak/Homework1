@@ -10,6 +10,7 @@ import java.util.Random;
 
 public class CarUtils<T extends Car> {
     private final static Random RANDOM = new Random();
+
     public static boolean isParameterForThisTypeOfCar(TypeOfCar typeOfCar, Color color, Model model,
                                                       Wheel wheel, Engine engine) {
         if (typeOfCar.equals(color.getTypeOfCar()) &&
@@ -82,56 +83,109 @@ public class CarUtils<T extends Car> {
         return engines;
     }
 
-    public static void generateRandomCars(TypeOfCar typeOfCar, Stock stock, int quantityOfCars) {
+    public static Color generateRandomColor(TypeOfCar typeOfCar) {
         ArrayList<Color> colors = getListOfColors(typeOfCar);
-        ArrayList<Model> models = getListOfModels(typeOfCar);
-        ArrayList<Wheel> wheels = getListOfWheels(typeOfCar);
-        ArrayList<Engine> engines = getListOfEngines(typeOfCar);
-        BusPassengerCapacity[] busCapacities = BusPassengerCapacity.values();
-        PassengerCarBodyType[] carBodyTypes = PassengerCarBodyType.values();
-        TruckLoadCapacity[] loadCapacities = TruckLoadCapacity.values();
-        int[] years = {2022, 2023, 2023, 2023};
+        return colors.get(RANDOM.nextInt(colors.size()));
+    }
 
+    public static Model generateRandomModel(TypeOfCar typeOfCar) {
+        ArrayList<Model> models = getListOfModels(typeOfCar);
+        return models.get(RANDOM.nextInt(models.size()));
+    }
+
+    public static Wheel generateRandomWheel(TypeOfCar typeOfCar) {
+        ArrayList<Wheel> wheels = getListOfWheels(typeOfCar);
+        return wheels.get(RANDOM.nextInt(wheels.size()));
+    }
+
+    public static Engine generateRandomEngine(TypeOfCar typeOfCar) {
+        ArrayList<Engine> engines = getListOfEngines(typeOfCar);
+        return engines.get(RANDOM.nextInt(engines.size()));
+    }
+
+    public static EnumSet<Option> generateRandomOptions() {
+        ArrayList<Option> tempOptions = new ArrayList<>();
+        for (Option option : Option.values()) {
+            tempOptions.add(option);
+        }
+        EnumSet<Option> randomOptions = EnumSet.noneOf(Option.class);
+        int optionQuantity = RANDOM.nextInt(tempOptions.size() + 1);
+        for (int j = 0; j < optionQuantity; j++) {
+            int tempIndex = RANDOM.nextInt(tempOptions.size());
+            randomOptions.add(tempOptions.get(tempIndex));
+            tempOptions.remove(tempIndex);
+        }
+        return randomOptions;
+    }
+
+    public static BusPassengerCapacity generateRandomBusPassengerCapacity() {
+        BusPassengerCapacity[] busCapacities = BusPassengerCapacity.values();
+        return busCapacities[RANDOM.nextInt(busCapacities.length)];
+    }
+
+    public static PassengerCarBodyType generateRandomPassengerCarBodyType() {
+        PassengerCarBodyType[] carBodyTypes = PassengerCarBodyType.values();
+        return carBodyTypes[RANDOM.nextInt(carBodyTypes.length)];
+    }
+
+    public static TruckLoadCapacity generateRandomTruckLoadCapacity() {
+        TruckLoadCapacity[] loadCapacities = TruckLoadCapacity.values();
+        return loadCapacities[RANDOM.nextInt(loadCapacities.length)];
+    }
+
+    public static void generateRandomCars(TypeOfCar typeOfCar, Stock stock, int quantityOfCars) {
+        int[] years = {2022, 2023, 2023, 2023};
         for (int i = 1; i <= quantityOfCars; i++) {
-            Color randomColor = colors.get(RANDOM.nextInt(colors.size()));
-            Model randomModel = models.get(RANDOM.nextInt(models.size()));
+            Color randomColor = generateRandomColor(typeOfCar);
+            Model randomModel = generateRandomModel(typeOfCar);
             int randomYear = years[RANDOM.nextInt(years.length)];
-            Wheel randomWheel = wheels.get(RANDOM.nextInt(wheels.size()));
-            Engine randomEngine = engines.get(RANDOM.nextInt(engines.size()));
-            ArrayList<Option> tempOptions = new ArrayList<>();
-            for (Option option : Option.values()) {
-                tempOptions.add(option);
-            }
-            EnumSet<Option> randomOptions = EnumSet.noneOf(Option.class);
-            int optionQuantity = RANDOM.nextInt(tempOptions.size() + 1);
-            for (int j = 0; j < optionQuantity; j++) {
-                int tempIndex = RANDOM.nextInt(tempOptions.size());
-                randomOptions.add(tempOptions.get(tempIndex));
-                tempOptions.remove(tempIndex);
-            }
+            Wheel randomWheel = generateRandomWheel(typeOfCar);
+            Engine randomEngine = generateRandomEngine(typeOfCar);
+            EnumSet<Option> randomOptions = generateRandomOptions();
             if (typeOfCar.equals(TypeOfCar.BUS)) {
-                BusPassengerCapacity randomBusCapacity = busCapacities[RANDOM.nextInt(busCapacities.length)];
+                BusPassengerCapacity randomBusCapacity = generateRandomBusPassengerCapacity();
                 try {
-                    stock.addCarToStock(new Bus(randomColor, typeOfCar, randomModel, randomYear,
-                            randomWheel, randomEngine, randomOptions, randomBusCapacity));
+                    stock.addCarToStock(new Bus(
+                            randomColor,
+                            typeOfCar,
+                            randomModel,
+                            randomYear,
+                            randomWheel,
+                            randomEngine,
+                            randomOptions,
+                            randomBusCapacity));
                 } catch (NotValidArgumentException e) {
                     System.out.println(e);
                 }
             }
             if (typeOfCar.equals(TypeOfCar.PASSENGER_CAR)) {
-                PassengerCarBodyType randomCarBodyType = carBodyTypes[RANDOM.nextInt(carBodyTypes.length)];
+                PassengerCarBodyType randomCarBodyType = generateRandomPassengerCarBodyType();
                 try {
-                    stock.addCarToStock(new PassengerCar(randomColor, typeOfCar, randomModel, randomYear,
-                            randomWheel, randomEngine, randomOptions, randomCarBodyType));
+                    stock.addCarToStock(new PassengerCar(
+                            randomColor,
+                            typeOfCar,
+                            randomModel,
+                            randomYear,
+                            randomWheel,
+                            randomEngine,
+                            randomOptions,
+                            randomCarBodyType));
                 } catch (NotValidArgumentException e) {
                     System.out.println(e);
                 }
             }
             if (typeOfCar.equals(TypeOfCar.TRUCK)) {
-                TruckLoadCapacity randomLoadCapacity = loadCapacities[RANDOM.nextInt(loadCapacities.length)];
+                TruckLoadCapacity randomLoadCapacity = generateRandomTruckLoadCapacity();
                 try {
-                    stock.addCarToStock(new Truck(randomColor, typeOfCar, randomModel, randomYear,
-                            randomWheel, randomEngine, randomOptions, randomLoadCapacity));
+                    stock.addCarToStock(new Truck(
+                            randomColor,
+                            typeOfCar,
+                            randomModel,
+                            randomYear,
+                            randomWheel,
+                            randomEngine,
+                            randomOptions,
+                            randomLoadCapacity));
                 } catch (NotValidArgumentException e) {
                     System.out.println(e);
                 }

@@ -12,8 +12,15 @@ public class Truck extends Car {
             " engineVol: %s, color: %s, wheels: %s, options: %s";
     private TruckLoadCapacity loadCapacity;
 
-    public Truck(Color color, TypeOfCar typeOfCar, Model model, int year, Wheel wheel, Engine engine,
-                 EnumSet<Option> options, TruckLoadCapacity loadCapacity) throws NotValidArgumentException {
+    public Truck(Color color,
+                 TypeOfCar typeOfCar,
+                 Model model,
+                 int year,
+                 Wheel wheel,
+                 Engine engine,
+                 EnumSet<Option> options,
+                 TruckLoadCapacity loadCapacity
+    ) throws NotValidArgumentException {
         super(color, typeOfCar, model, year, wheel, engine, options);
         if (!CarUtils.isParameterForThisTypeOfCar(typeOfCar, color, model, wheel, engine, loadCapacity)) {
             throw new NotValidArgumentException("Not valid constructor arguments");
@@ -21,8 +28,14 @@ public class Truck extends Car {
         this.loadCapacity = loadCapacity;
     }
 
-    public Truck(Color color, TypeOfCar typeOfCar, Model model, int year, Wheel wheel, Engine engine,
-                 TruckLoadCapacity loadCapacity) throws NotValidArgumentException {
+    public Truck(Color color,
+                 TypeOfCar typeOfCar,
+                 Model model,
+                 int year,
+                 Wheel wheel,
+                 Engine engine,
+                 TruckLoadCapacity loadCapacity
+    ) throws NotValidArgumentException {
         super(color, typeOfCar, model, year, wheel, engine);
         if (!CarUtils.isParameterForThisTypeOfCar(typeOfCar, color, model, wheel, engine, loadCapacity)) {
             throw new NotValidArgumentException("Not valid constructor arguments");
