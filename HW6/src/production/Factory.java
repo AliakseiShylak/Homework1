@@ -15,22 +15,22 @@ public class Factory {
     public void produceRandomPartAndPutInStock(Stock stock) {
         switch (parts[RANDOM.nextInt(parts.length)]) {
             case BODY:
-                stock.addPartToStock(new Body());
+                stock.addBodyToStock(new Body());
                 break;
             case HEAD:
-                stock.addPartToStock(new Head());
+                stock.addHeadToStock(new Head());
                 break;
             case LEFT_HAND:
-                stock.addPartToStock(new LeftHand());
+                stock.addLeftHandToStock(new LeftHand());
                 break;
             case RIGHT_HAND:
-                stock.addPartToStock(new RightHand());
+                stock.addRightHandToStock(new RightHand());
                 break;
             case LEFT_LEG:
-                stock.addPartToStock(new LeftLeg());
+                stock.addLeftLegToStock(new LeftLeg());
                 break;
             case RIGHT_LEG:
-                stock.addPartToStock(new RightLeg());
+                stock.addRightLegToStock(new RightLeg());
                 break;
         }
     }

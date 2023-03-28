@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RobotWar {
-    private static final Integer LIMIT = 20;
+    private static final Integer LIMIT = 3;
     private static final Object OBJECT = new Object();
     private static volatile AtomicBoolean run = new AtomicBoolean(true);
     private static Stock stock = new Stock();
@@ -20,7 +20,7 @@ public class RobotWar {
                     factory.produceRandomPartAndPutInStock(stock);
                     System.out.println(stock.printStock());
                 }
-                Thread.sleep(5000);
+                Thread.sleep(100);
             }
         } catch (InterruptedException ignored) {
         }
