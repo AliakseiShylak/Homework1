@@ -1,7 +1,8 @@
 package cars;
 
-import cars.enums.*;
-import exceptions.NotValidArgumentException;
+import carparameters.Option;
+import carparameters.TypeOfCar;
+import carparameters.truckenums.*;
 
 import java.util.EnumSet;
 
@@ -12,34 +13,28 @@ public class Truck extends Car {
             " engineVol: %s, color: %s, wheels: %s, options: %s";
     private TruckLoadCapacity loadCapacity;
 
-    public Truck(Color color,
-                 TypeOfCar typeOfCar,
-                 Model model,
-                 int year,
-                 Wheel wheel,
-                 Engine engine,
-                 EnumSet<Option> options,
-                 TruckLoadCapacity loadCapacity
-    ) throws NotValidArgumentException {
-        super(color, typeOfCar, model, year, wheel, engine, options);
-        if (!CarUtils.isParameterForThisTypeOfCar(typeOfCar, color, model, wheel, engine, loadCapacity)) {
-            throw new NotValidArgumentException("Not valid constructor arguments");
-        }
+    public Truck(
+            TruckColor color,
+            TruckModel model,
+            int year,
+            TruckWheel wheel,
+            TruckEngine engine,
+            EnumSet<Option> options,
+            TruckLoadCapacity loadCapacity
+    ) {
+        super(color, TypeOfCar.TRUCK, model, year, wheel, engine, options);
         this.loadCapacity = loadCapacity;
     }
 
-    public Truck(Color color,
-                 TypeOfCar typeOfCar,
-                 Model model,
-                 int year,
-                 Wheel wheel,
-                 Engine engine,
-                 TruckLoadCapacity loadCapacity
-    ) throws NotValidArgumentException {
-        super(color, typeOfCar, model, year, wheel, engine);
-        if (!CarUtils.isParameterForThisTypeOfCar(typeOfCar, color, model, wheel, engine, loadCapacity)) {
-            throw new NotValidArgumentException("Not valid constructor arguments");
-        }
+    public Truck(
+            TruckColor color,
+            TruckModel model,
+            int year,
+            TruckWheel wheel,
+            TruckEngine engine,
+            TruckLoadCapacity loadCapacity
+    ) {
+        super(color, TypeOfCar.TRUCK, model, year, wheel, engine);
         this.loadCapacity = loadCapacity;
     }
 

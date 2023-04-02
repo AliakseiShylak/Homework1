@@ -1,13 +1,16 @@
-import cars.CarUtils;
+import carparameters.Option;
+import carparameters.busenums.*;
+import carparameters.passengercarenums.*;
+import carparameters.truckenums.*;
 import cars.PassengerCar;
-import cars.enums.*;
-import exceptions.NotValidArgumentException;
 import factoty.BusFactory;
-import factoty.Factory;
 import factoty.PassengerCarFactoty;
 import factoty.TruckFactory;
-import showroom.Order;
+import order.BusOrder;
+import order.PassengerCarOrder;
+import order.TruckOrder;
 import showroom.Showroom;
+import utils.Generator;
 
 import java.util.EnumSet;
 
@@ -17,124 +20,111 @@ public class MainForCars {
         EnumSet<Option> standart = EnumSet.of(Option.ABS, Option.CONDITIONER);
         EnumSet<Option> premium = EnumSet.of(Option.ABS, Option.CONDITIONER, Option.CRUISE_CONTROL, Option.HEATED_SEATS);
 
-        Showroom multibrandShowroom = new Showroom("KiNeSca");
-        System.out.println(multibrandShowroom.printStockOfShowroom());
+// Создание завода с некоторым запасом автобусов на складе
+        BusFactory factoryNeoplan = new BusFactory(
+                "Neoplan",
+                BusModel.getListOfModels(),
+                BusEngine.getListOfEngines(),
+                BusColor.getListOfColors(),
+                BusWheel.getListOfWheels(),
+                5
+        );
+        factoryNeoplan.printDataAboutFactory();
+        factoryNeoplan.printStockOfFactory();
 
-        try {
-// создание завода с некоторым запасом автобусов на складе
-            BusFactory factoryNeoplan = new BusFactory("Neoplan",
-                    TypeOfCar.BUS,
-                    CarUtils.getListOfModels(TypeOfCar.BUS),
-                    CarUtils.getListOfEngines(TypeOfCar.BUS),
-                    CarUtils.getListOfColors(TypeOfCar.BUS),
-                    CarUtils.getListOfWheels(TypeOfCar.BUS)
+// Создание завода с некоторым запасом грузовиков на складе
+        TruckFactory factoryScania = new TruckFactory(
+                "Scania",
+                TruckModel.getListOfModels(),
+                TruckEngine.getListOfEngines(),
+                TruckColor.getListOfColors(),
+                TruckWheel.getListOfWheels(),
+                5
+        );
+        factoryScania.printDataAboutFactory();
+        factoryScania.printStockOfFactory();
+
+// Создание завода с некоторым запасом легковых автомобилей на складе
+        PassengerCarFactoty factoryKia = new PassengerCarFactoty(
+                "Kia",
+                PassengerCarModel.getListOfModels(),
+                PassengerCarEngine.getListOfEngines(),
+                PassengerCarColor.getListOfColors(),
+                PassengerCarWheel.getListOfWheels(),
+                10
+        );
+        factoryKia.printDataAboutFactory();
+        factoryKia.printStockOfFactory();
+
+// Создание автосалона
+        Showroom multibrandShowroom = new Showroom("KiNeSca", factoryNeoplan, factoryKia, factoryScania);
+        multibrandShowroom.printStockOfShowroom();
+
+// Выполнение заказа автосалона на автобусы
+        for (int i = 0; i < 5; i++) {
+            multibrandShowroom.orderBus(
+                    new BusOrder(
+                            Generator.generateRandomParameter(BusModel.values()),
+                            Generator.generateRandomParameter(BusColor.values()),
+                            Generator.generateRandomParameter(BusWheel.values()),
+                            Generator.generateRandomParameter(BusEngine.values()),
+                            Generator.generateRandomOptions(),
+                            Generator.generateRandomParameter(BusPassengerCapacity.values())
+                    )
             );
-            System.out.println(factoryNeoplan.getDataAboutFactory());
-            System.out.println(factoryNeoplan.printStockOfFactory());
-
-// Выполнение заказа автосалона
-            for (int i = 0; i < 10; i++) {
-                multibrandShowroom.orderCar(factoryNeoplan, new Order(
-                        TypeOfCar.BUS,
-                        CarUtils.generateRandomModel(TypeOfCar.BUS),
-                        CarUtils.generateRandomColor(TypeOfCar.BUS),
-                        CarUtils.generateRandomWheel(TypeOfCar.BUS),
-                        CarUtils.generateRandomEngine(TypeOfCar.BUS),
-                        CarUtils.generateRandomOptions(),
-                        CarUtils.generateRandomBusPassengerCapacity()
-                ));
-            }
-// Остаток на складе завода после выполнения заказа
-            System.out.println(factoryNeoplan.printStockOfFactory());
-        } catch (NotValidArgumentException e) {
-            System.out.println(e);
         }
-// Остаток на складе автосолона после выполнения заказа автозаводом
-        System.out.println(multibrandShowroom.printStockOfShowroom());
-
-        try {
-// создание завода с некоторым запасом грузовиков на складе
-            TruckFactory factoryScania = new TruckFactory("Scania",
-                    TypeOfCar.TRUCK,
-                    CarUtils.getListOfModels(TypeOfCar.TRUCK),
-                    CarUtils.getListOfEngines(TypeOfCar.TRUCK),
-                    CarUtils.getListOfColors(TypeOfCar.TRUCK),
-                    CarUtils.getListOfWheels(TypeOfCar.TRUCK));
-            System.out.println(factoryScania.getDataAboutFactory());
-            System.out.println(factoryScania.printStockOfFactory());
-
-// Выполнение заказа автосалона
-            for (int i = 0; i < 6; i++) {
-                multibrandShowroom.orderCar(factoryScania, new Order(
-                        TypeOfCar.TRUCK,
-                        CarUtils.generateRandomModel(TypeOfCar.TRUCK),
-                        CarUtils.generateRandomColor(TypeOfCar.TRUCK),
-                        CarUtils.generateRandomWheel(TypeOfCar.TRUCK),
-                        CarUtils.generateRandomEngine(TypeOfCar.TRUCK),
-                        CarUtils.generateRandomOptions(),
-                        CarUtils.generateRandomTruckLoadCapacity()
-                ));
-            }
 // Остаток на складе завода после выполнения заказа
-            System.out.println(factoryScania.printStockOfFactory());
-        } catch (NotValidArgumentException e) {
-            System.out.println(e);
-        }
+        factoryNeoplan.printStockOfFactory();
 // Остаток на складе автосолона после выполнения заказа автозаводом
-        System.out.println(multibrandShowroom.printStockOfShowroom());
+        multibrandShowroom.printStockOfShowroom();
 
-        try {
-// создание завода с некоторым запасом легковых автомобилей на складе
-            PassengerCarFactoty factoryKia = new PassengerCarFactoty("Kia",
-                    TypeOfCar.PASSENGER_CAR,
-                    CarUtils.getListOfModels(TypeOfCar.PASSENGER_CAR),
-                    CarUtils.getListOfEngines(TypeOfCar.PASSENGER_CAR),
-                    CarUtils.getListOfColors(TypeOfCar.PASSENGER_CAR),
-                    CarUtils.getListOfWheels(TypeOfCar.PASSENGER_CAR));
-            System.out.println(factoryKia.getDataAboutFactory());
-            System.out.println(factoryKia.printStockOfFactory());
-
-// Выполнение заказа автосалона
-            for (int i = 0; i < 12; i++) {
-                multibrandShowroom.orderCar(factoryKia, new Order(
-                        TypeOfCar.PASSENGER_CAR,
-                        CarUtils.generateRandomModel(TypeOfCar.PASSENGER_CAR),
-                        CarUtils.generateRandomColor(TypeOfCar.PASSENGER_CAR),
-                        CarUtils.generateRandomWheel(TypeOfCar.PASSENGER_CAR),
-                        CarUtils.generateRandomEngine(TypeOfCar.PASSENGER_CAR),
-                        CarUtils.generateRandomOptions(),
-                        CarUtils.generateRandomPassengerCarBodyType()
-                ));
-            }
-// Остаток на складе завода после выполнения заказа
-            System.out.println(factoryKia.printStockOfFactory());
-        } catch (NotValidArgumentException e) {
-            System.out.println(e);
-        }
-
-// Остаток на складе автосолона после выполнения заказа автозаводом
-        System.out.println(multibrandShowroom.printStockOfShowroom());
-
-        //Демонстрация работы сервиса автосалона
-        try {
-            PassengerCar carToChange = new PassengerCar(Color.BLUE,
-                    TypeOfCar.PASSENGER_CAR,
-                    Model.KIA_RIO,
-                    2014,
-                    Wheel.R13,
-                    Engine.V1_4,
-                    PassengerCarBodyType.SEDAN
+// Выполнение заказа автосалона на грузовики
+        for (int i = 0; i < 5; i++) {
+            multibrandShowroom.orderTruck(
+                    new TruckOrder(
+                            Generator.generateRandomParameter(TruckModel.values()),
+                            Generator.generateRandomParameter(TruckColor.values()),
+                            Generator.generateRandomParameter(TruckWheel.values()),
+                            Generator.generateRandomParameter(TruckEngine.values()),
+                            Generator.generateRandomOptions(),
+                            Generator.generateRandomParameter(TruckLoadCapacity.values())
+                    )
             );
-            System.out.println("\nDemonstration of work of showroom service.\nCar before modification:\n\t" + carToChange);
-            multibrandShowroom.changeColor(carToChange, Color.ORANGE);
-            multibrandShowroom.changeWheels(carToChange, Wheel.R14);
-            multibrandShowroom.setOptions(carToChange, standart);
-            multibrandShowroom.addOption(carToChange, Option.CRUISE_CONTROL);
-            multibrandShowroom.deleteOption(carToChange, Option.ABS);
-            System.out.println("Car after modification:\n\t" + carToChange);
-        } catch (NotValidArgumentException e) {
-            System.out.println(e);
         }
+// Остаток на складе завода после выполнения заказа
+        factoryScania.printStockOfFactory();
+// Остаток на складе автосолона после выполнения заказа автозаводом
+        multibrandShowroom.printStockOfShowroom();
+
+// Выполнение заказа автосалона на егковые автомобили
+        for (int i = 0; i < 5; i++) {
+            multibrandShowroom.orderPassengerCar(
+                    new PassengerCarOrder(
+                            Generator.generateRandomParameter(PassengerCarModel.values()),
+                            Generator.generateRandomParameter(PassengerCarColor.values()),
+                            Generator.generateRandomParameter(PassengerCarWheel.values()),
+                            Generator.generateRandomParameter(PassengerCarEngine.values()),
+                            Generator.generateRandomOptions(),
+                            Generator.generateRandomParameter(PassengerCarBodyType.values())
+                    )
+            );
+        }
+// Остаток на складе завода после выполнения заказа
+        factoryKia.printStockOfFactory();
+// Остаток на складе автосолона после выполнения заказа автозаводом
+        multibrandShowroom.printStockOfShowroom();
+
+//Демонстрация работы сервиса автосалона
+        PassengerCar carToChange = (PassengerCar) multibrandShowroom
+                .getStock().get(multibrandShowroom.getStock().size() - 1);
+        System.out.println("\nDemonstration of work of showroom service.\nCar before modification:\n\t" + carToChange);
+        multibrandShowroom.changeColor(carToChange, PassengerCarColor.ORANGE);
+        multibrandShowroom.changeWheels(carToChange, PassengerCarWheel.R13);
+        multibrandShowroom.setOptions(carToChange, standart);
+        multibrandShowroom.addOption(carToChange, Option.CRUISE_CONTROL);
+        multibrandShowroom.deleteOption(carToChange, Option.ABS);
+        System.out.println("Car after modification:\n\t"
+                + multibrandShowroom.getStock().get(multibrandShowroom.getStock().size() - 1));
 
     }
 }

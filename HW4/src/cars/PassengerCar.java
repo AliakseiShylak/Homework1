@@ -1,8 +1,10 @@
 package cars;
 
-import cars.Car;
-import cars.enums.*;
-import exceptions.NotValidArgumentException;
+import carparameters.Option;
+import carparameters.TypeOfCar;
+import carparameters.busenums.BusColor;
+import carparameters.busenums.BusWheel;
+import carparameters.passengercarenums.*;
 
 import java.util.EnumSet;
 
@@ -13,33 +15,28 @@ public class PassengerCar extends Car {
             " engineVol: %s, color: %s, wheels: %s, options: %s";
     private final PassengerCarBodyType carBodyType;
 
-    public PassengerCar(Color color,
-                        TypeOfCar typeOfCar,
-                        Model model, int year,
-                        Wheel wheel,
-                        Engine engine,
-                        EnumSet<Option> options,
-                        PassengerCarBodyType carBodyType
-    ) throws NotValidArgumentException {
-        super(color, typeOfCar, model, year, wheel, engine, options);
-        if (!CarUtils.isParameterForThisTypeOfCar(typeOfCar, color, model, wheel, engine, carBodyType)) {
-            throw new NotValidArgumentException("Not valid constructor arguments");
-        }
+    public PassengerCar(
+            PassengerCarColor color,
+            PassengerCarModel model,
+            int year,
+            PassengerCarWheel wheel,
+            PassengerCarEngine engine,
+            EnumSet<Option> options,
+            PassengerCarBodyType carBodyType
+    ) {
+        super(color, TypeOfCar.PASSENGER_CAR, model, year, wheel, engine, options);
         this.carBodyType = carBodyType;
     }
 
-    public PassengerCar(Color color,
-                        TypeOfCar typeOfCar,
-                        Model model,
-                        int year,
-                        Wheel wheel,
-                        Engine engine,
-                        PassengerCarBodyType carBodyType
-    ) throws NotValidArgumentException {
-        super(color, typeOfCar, model, year, wheel, engine);
-        if (!CarUtils.isParameterForThisTypeOfCar(typeOfCar, color, model, wheel, engine, carBodyType)) {
-            throw new NotValidArgumentException("Not valid constructor arguments");
-        }
+    public PassengerCar(
+            PassengerCarColor color,
+            PassengerCarModel model,
+            int year,
+            PassengerCarWheel wheel,
+            PassengerCarEngine engine,
+            PassengerCarBodyType carBodyType
+    ) {
+        super(color, TypeOfCar.PASSENGER_CAR, model, year, wheel, engine);
         this.carBodyType = carBodyType;
     }
 
@@ -61,4 +58,5 @@ public class PassengerCar extends Car {
                 getOptions()
         );
     }
+
 }

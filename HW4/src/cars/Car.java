@@ -1,7 +1,7 @@
 package cars;
 
-import cars.enums.*;
-import exceptions.NotValidArgumentException;
+import carparameters.*;
+import services.ChangeColorService;
 
 import java.util.EnumSet;
 
@@ -14,8 +14,15 @@ public class Car {
     private final Engine engine;
     private EnumSet<Option> options;
 
-    public Car(Color color, TypeOfCar typeOfCar, Model model, int year,
-               Wheel wheel, Engine engine, EnumSet<Option> options) {
+    public Car(
+            Color color,
+            TypeOfCar typeOfCar,
+            Model model,
+            int year,
+            Wheel wheel,
+            Engine engine,
+            EnumSet<Option> options
+    ) {
         this.color = color;
         this.typeOfCar = typeOfCar;
         this.model = model;

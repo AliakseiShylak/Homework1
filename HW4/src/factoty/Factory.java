@@ -1,115 +1,81 @@
 package factoty;
 
+import carparameters.*;
 import cars.*;
-import cars.enums.*;
-import exceptions.NotValidArgumentException;
-import services.ChangeService;
+import services.ChangeColorService;
+import services.ChangeWheelService;
 import services.OptionService;
-import showroom.Order;
+import order.Order;
+import stock.Stock;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.Random;
 
 public class Factory {
     final static int CURRENT_YEAR = 2023;
     private final String nameOfFactory;
-    private final TypeOfCar carTypeOfFactory;
-    private final ArrayList<Model> modelsOfFactory;
-    private final ArrayList<Engine> setOfEngines;
-    private final ArrayList<Color> setOfColors;
-    private final ArrayList<Wheel> setOfWheels;
+    protected final TypeOfCar carTypeOfFactory;
+    protected final ArrayList<Model> modelsOfFactory;
+    protected final ArrayList<Engine> setOfEngines;
+    protected final ArrayList<Color> setOfColors;
+    protected final ArrayList<Wheel> setOfWheels;
     protected final Stock stockOfFactory;
-    private final ChangeService changeServiceOfFactory;
+    private final ChangeColorService changeColorServiceOfFactory;
+    private final ChangeWheelService changeWheelServiceOfFactory;
     private final OptionService optionServiceOfFactory;
 
     public TypeOfCar getCarTypeOfFactory() {
         return carTypeOfFactory;
     }
 
-    public Factory(String nameOfFactory,
-                   TypeOfCar carTypeOfFactory,
-                   ArrayList<Model> modelsOfFactory,
-                   ArrayList<Engine> setOfEngines,
-                   ArrayList<Color> setOfColors,
-                   ArrayList<Wheel> setOfWheels
-    ) throws NotValidArgumentException {
-        if (!CarUtils.isParameterForThisTypeOfCar(carTypeOfFactory, setOfColors.get(0), modelsOfFactory.get(0),
-                setOfWheels.get(0), setOfEngines.get(0))) {
-            throw new NotValidArgumentException("Not valid constructor arguments");
-        }
+    public Factory(String nameOfFactory, TypeOfCar carTypeOfFactory) {
         this.nameOfFactory = nameOfFactory;
         this.carTypeOfFactory = carTypeOfFactory;
-        this.modelsOfFactory = modelsOfFactory;
-        this.setOfEngines = setOfEngines;
-        this.setOfColors = setOfColors;
-        this.setOfWheels = setOfWheels;
+        this.modelsOfFactory = new ArrayList<>();
+        this.setOfEngines = new ArrayList<>();
+        this.setOfColors = new ArrayList<>();
+        this.setOfWheels = new ArrayList<>();
         this.stockOfFactory = new Stock(new ArrayList<>());
-        Random carQuantity = new Random();
-        CarUtils.generateRandomCars(carTypeOfFactory, this.stockOfFactory, carQuantity.nextInt(10));
-        this.changeServiceOfFactory = new ChangeService();
+        this.changeColorServiceOfFactory = new ChangeColorService();
+        this.changeWheelServiceOfFactory = new ChangeWheelService();
         this.optionServiceOfFactory = new OptionService();
     }
 
-    public String getDataAboutFactory() {
-        String str = "\nFactory: \"" + nameOfFactory +
-                "\"\nSet of models: " + modelsOfFactory.toString() +
-                "\nSet of engines: " + setOfEngines.toString() +
-                "\nSet of colors: " + setOfColors.toString() +
-                "\nSet of wheels: " + setOfWheels.toString();
-        return str;
+    public void printDataAboutFactory() {
+        System.out.println(
+                "\nFactory: \"" + nameOfFactory +
+                        "\"\nSet of models: " + modelsOfFactory.toString() +
+                        "\nSet of engines: " + setOfEngines.toString() +
+                        "\nSet of colors: " + setOfColors.toString() +
+                        "\nSet of wheels: " + setOfWheels.toString()
+        );
     }
 
-    public String printStockOfFactory() {
-        return "\nStock of factory \"" + this.nameOfFactory + "\":" + this.stockOfFactory.printStock();
+    public void printStockOfFactory() {
+        System.out.println("\nStock of factory \"" + this.nameOfFactory + "\":" + this.stockOfFactory.printStock());
     }
 
-    public <T extends Car> boolean addCarToStock(T car) {
+    protected  <T extends Car> boolean addCarToStock(T car) {
         return stockOfFactory.addCarToStock(car);
     }
 
-    protected boolean checkOrder(Order order) {
-        if (order.getTypeOfOrderedCar().equals(this.carTypeOfFactory)
-                && order.getModelOfOrderedCar().isModelForThisCar(this.carTypeOfFactory)
-                && order.getEngineOfOrderedCar().isEngineForThisCar(this.carTypeOfFactory)
-                && order.getColorOfOrderedCar().isColorForThisCar(this.carTypeOfFactory)
-                && order.getWheelOfOrderedCar().isWheelForThisCar(this.carTypeOfFactory)
-        ) {
-            return true;
-        }
-        return false;
-    }
-
-    public static <T extends Car, S> boolean isCarConvertible(T car,
-                                                              TypeOfCar typeOfOrderedCar,
-                                                              Model modelOfOrderedCar,
-                                                              Engine engineOfOrderedCar,
-                                                              S carParameter
-    ) {
-        if (car.getTypeOfCar().equals(typeOfOrderedCar)
-                && car.getModel().equals(modelOfOrderedCar)
-                && car.getEngine().equals(engineOfOrderedCar)
-        ) {
-            if (car instanceof Bus
-                    && typeOfOrderedCar.equals(TypeOfCar.BUS)
-                    && ((Bus) car).getBusPassengerCapacity().equals(carParameter)
-            ) {
-                return true;
+    protected int estimateСarСompatibility(Car car, Order order) {
+        int counter = -1;
+        if (car.getModel().equals(order.getModelOfOrderedCar())
+                && car.getEngine().equals(order.getEngineOfOrderedCar())) {
+            counter++;
+            if (car.getColor().equals(order.getColorOfOrderedCar())) {
+                counter += 10;
             }
-            if (car instanceof PassengerCar
-                    && typeOfOrderedCar.equals(TypeOfCar.PASSENGER_CAR)
-                    && ((PassengerCar) car).getPassengerCarBodyType().equals(carParameter)
-            ) {
-                return true;
+            if (car.getWheel().equals(order.getWheelOfOrderedCar())) {
+                counter += 1;
             }
-            if (car instanceof Truck
-                    && typeOfOrderedCar.equals(TypeOfCar.TRUCK)
-                    && ((Truck) car).getTruckLoadCapacity().equals(carParameter)
-            ) {
-                return true;
+            for (Option option : car.getOptions()) {
+                if (order.getOptionsOfOrderedCar().contains(option)) {
+                    counter += 2;
+                }
             }
         }
-        return false;
+        return counter;
     }
 
     protected <T extends Car> T convertCar(T carToChange, Order order) {
@@ -117,10 +83,10 @@ public class Factory {
             return null;
         }
         if (!carToChange.getColor().equals(order.getColorOfOrderedCar())) {
-            changeServiceOfFactory.change(carToChange, order.getColorOfOrderedCar());
+            changeColorServiceOfFactory.changeColor(carToChange, order.getColorOfOrderedCar());
         }
         if (!carToChange.getWheel().equals(order.getWheelOfOrderedCar())) {
-            changeServiceOfFactory.change(carToChange, order.getWheelOfOrderedCar());
+            changeWheelServiceOfFactory.changeWheel(carToChange, order.getWheelOfOrderedCar());
         }
         if (!carToChange.getOptions().equals(order.getOptionsOfOrderedCar())) {
             optionServiceOfFactory.setOptions(carToChange, order.getOptionsOfOrderedCar());

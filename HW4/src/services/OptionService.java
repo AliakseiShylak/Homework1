@@ -1,36 +1,41 @@
 package services;
 
 import cars.Car;
-import cars.enums.Option;
+import carparameters.Option;
 
 import java.util.EnumSet;
-import java.util.Set;
 
 public class OptionService<T extends Car> {
-    public <T extends Car> void addOption(T vehicle, Option option) {
-        if (vehicle != null && option != null) {
-            vehicle.addOption(option);
+    public <T extends Car> boolean addOption(T car, Option option) {
+        if (car == null || option == null) {
+            return false;
         }
+        car.addOption(option);
+        return true;
     }
 
-    public <T extends Car> void deleteOption(T vehicle, Option option) {
-        if (vehicle != null && option != null) {
-            vehicle.getOptions().remove(option);
+    public <T extends Car> boolean deleteOption(T car, Option option) {
+        if (car == null || option == null) {
+            return false;
         }
+        car.getOptions().remove(option);
+        return true;
     }
 
-    public <T extends Car> void setOptions(T vehicle, EnumSet<Option> options) {
-        if (vehicle != null && options != null) {
-            for (Option option : vehicle.getOptions()) {
-                if (!options.contains(option)) {
-                    deleteOption(vehicle, option);
-                }
-            }
-            for (Option option : options) {
-                if (!options.contains(vehicle.getOptions())) {
-                    addOption(vehicle, option);
-                }
+    public <T extends Car> boolean setOptions(T car, EnumSet<Option> options) {
+        if (car == null || options == null) {
+            return false;
+        }
+        for (Option option : car.getOptions()) {
+            if (!options.contains(option)) {
+                deleteOption(car, option);
             }
         }
+        for (Option option : options) {
+            if (!options.contains(car.getOptions())) {
+                addOption(car, option);
+            }
+        }
+        return true;
     }
 }
